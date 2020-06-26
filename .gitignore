@@ -1,0 +1,11 @@
+# JavaScript
+**/node_modules
+
+# NPM
+**/package-lock.json
+
+# VIM
+**.swp
+
+# ENV / Secrets
+**/config.env
