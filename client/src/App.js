@@ -1,14 +1,16 @@
 import React from "react"
 
-import AppNavbar from "./components/layout/AppNavbar"
-
 import "bootstrap/dist/css/bootstrap.min.css"
 import "./App.css"
+
+import AppNavbar from "./components/layout/AppNavbar"
+import ShoppingList from "./components/ShoppingList"
+
 
 const App = () => (
   <>
     <AppNavbar />
-    <h1>Shopping List</h1>
+    <ShoppingList />
   </>
 )
 
