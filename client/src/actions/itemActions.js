@@ -4,10 +4,12 @@ export const getItems = () => ({
   type: GET_ITEMS
 })
 
-export const addItem = () => ({
-  type: ADD_ITEM
+export const addItem = (name) => ({
+  type: ADD_ITEM,
+  payload: name
 })
 
-export const deleteItem = () => ({
-  type: DELETE_ITEM
+export const deleteItem = (id) => ({
+  type: DELETE_ITEM,
+  payload: id
 })

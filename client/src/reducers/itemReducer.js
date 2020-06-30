@@ -22,11 +22,14 @@ const itemReducer = (state = INITIAL_STATE, action) => {
       }
     case ADD_ITEM:
       return {
-        ...state
+        ...state,
+        items: [...state.items, { id: uuid(), name: action.payload }]
       }
     case DELETE_ITEM:
+      console.log("DELETE_ITEM CALLED")
       return {
-        ...state
+        ...state,
+        items: state.items.filter((item) => item.id !== action.payload)
       }
     default:
       return {
