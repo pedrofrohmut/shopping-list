@@ -1,4 +1,5 @@
 const bcrypt = require("bcryptjs")
+const jwt = require("jsonwebtoken")
 
 const User = require("../models/User")
 
@@ -30,11 +31,16 @@ exports.registerUser = async (req, res, next) => {
     // Create salt & hash
     const salt = await bcrypt.genSalt(10)
     const hash = await bcrypt.hash(password, salt)
-    const newUser = { name, email, password: hash }
-    const createdUser = await User.create(newUser)
-    return res.status(200).json({
+    // Save User to DB
+    const createdUser = await User.create({ name, email, password: hash })
+    // Gen Token
+    const token = jwt.sign({ id: createdUser._id }, process.env.JWT_SECRET, {
+      expiresIn: 3600
+    })
+    return res.status(201).json({
       success: true,
       data: createdUser,
+      token,
       message: "Created: new user created"
     })
   } catch (err) {
