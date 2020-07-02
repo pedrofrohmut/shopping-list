@@ -10,22 +10,23 @@ import PropTypes from "prop-types"
 
 const ShoppingList = ({ items, getItems, deleteItem }) => {
   useEffect(() => {
-    getItems()
+    if (!items || items.length === 0) {
+      getItems()
+    }
   })
-
   return (
     <>
       <Container className="ShoppingList mb-4">
         <ListGroup>
           <TransitionGroup className="shopping-list">
             {items.map((item) => (
-              <CSSTransition key={item.id} timeout={400} classNames="fade">
+              <CSSTransition key={item._id} timeout={400} classNames="fade">
                 <ListGroupItem>
                   <Button
                     className="remove-btn mr-3"
                     color="danger"
                     size="sm"
-                    onClick={() => deleteItem(item.id)}
+                    onClick={() => deleteItem(item._id)}
                   >
                     &times;
                   </Button>
@@ -51,7 +52,7 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  getItems: () => dispatch(getItemsAction),
+  getItems: () => dispatch(getItemsAction()),
   deleteItem: (id) => dispatch(deleteItemAction(id))
 })
 
