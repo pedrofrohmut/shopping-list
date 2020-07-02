@@ -20,6 +20,7 @@ app.use(express.json())
  * ROUTES
  */
 app.use("/api/v1/items", require("./routes/api/items"))
+app.use("/api/v1/users", require("./routes/api/users"))
 
 const PORT = process.env.PORT || 5000
 

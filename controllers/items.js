@@ -18,10 +18,10 @@ exports.getAllItems = async (req, res, next) => {
 
 exports.addItem = async (req, res, next) => {
   try {
-    const item = await Item.create(req.body)
+    const newItem = await Item.create(req.body)
     return res.status(201).json({
       success: true,
-      data: item,
+      data: newItem,
       message: "Created: new item created"
     })
   } catch (err) {
