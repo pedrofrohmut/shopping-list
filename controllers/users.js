@@ -2,6 +2,7 @@ const bcrypt = require("bcryptjs")
 const jwt = require("jsonwebtoken")
 
 const User = require("../models/User")
+const auth = require("../middleware/auth")
 
 exports.registerUser = async (req, res, next) => {
   const { name, email, password } = req.body
@@ -92,6 +93,22 @@ exports.loginUser = async (req, res, next) => {
     return res.status(500).json({
       success: false,
       message: "Error: error to log in User: " + err.message
+    })
+  }
+}
+
+exports.validateUser = async (req, res, next) => {
+  try {
+    const user = await User.findById(req.user.id).select("-password")
+    return res.status(200).json({
+      success: true,
+      data: user,
+      message: "Success: user authenticated"
+    })
+  } catch (err) {
+    return res.status(500).json({
+      success: false,
+      message: "Error: error to validate user"
     })
   }
 }
