@@ -36,7 +36,6 @@ export const loadUser = () => (dispatch, getState) => {
 
 // Register user
 export const registerUser = ({ name, email, password }) => (dispatch) => {
-  console.log(name, email, password)
   const config = {
     headers: {
       "Content-type": "Application/json"
@@ -46,15 +45,12 @@ export const registerUser = ({ name, email, password }) => (dispatch) => {
   axios
     .post("/users", body, config)
     .then((res) => {
-      console.log("RES DATA", res.data)
       dispatch({
         type: REGISTER_SUCCESS,
         payload: res.data
       })
     })
     .catch((err) => {
-      console.log(err)
-      console.log(err.response)
       dispatch(
         returnErrors(err.response.data, err.response.status, "REGISTER_FAIL")
       )
