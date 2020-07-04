@@ -40,7 +40,7 @@ exports.registerUser = async (req, res, next) => {
     })
     return res.status(201).json({
       success: true,
-      data: createdUser,
+      data: { name, email, id: createdUser._id },
       token,
       message: "Created: new user created"
     })

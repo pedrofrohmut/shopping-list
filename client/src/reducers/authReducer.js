@@ -11,7 +11,7 @@ import {
 
 const INITIAL_STATE = {
   token: localStorage.getItem("token"),
-  isAuthenticated: null,
+  isAuthenticated: false,
   isLoading: false,
   user: null
 }
@@ -32,9 +32,10 @@ const authReducer = (state = INITIAL_STATE, action) => {
       }
     case LOGIN_SUCCESS:
     case REGISTER_SUCCESS:
+      localStorage.setItem("token", action.payload.token)
       return {
         ...state,
-        user: action.payload.user,
+        user: action.payload.data,
         token: action.payload.token,
         isAuthenticated: true,
         isLoading: false

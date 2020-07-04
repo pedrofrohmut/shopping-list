@@ -6,9 +6,11 @@ import {
   NavbarToggler,
   Collapse,
   Nav,
-  NavItem,
-  NavLink
+  NavItem
 } from "reactstrap"
+
+import RegisterModal from "../auth/RegisterModal"
+import LogOut from "../auth/LogOut"
 
 const AppNavbar = () => {
   const [isOpen, setIsOpen] = useState(false)
@@ -20,7 +22,10 @@ const AppNavbar = () => {
         <Collapse isOpen={isOpen} navbar>
           <Nav className="ml-auto" navbar>
             <NavItem>
-              <NavLink href="https://github.com/pedrofrohmut">Github</NavLink>
+              <RegisterModal />
+            </NavItem>
+            <NavItem>
+              <LogOut />
             </NavItem>
           </Nav>
         </Collapse>
