@@ -14,7 +14,7 @@ import { connect } from "react-redux"
 import { addItem as addItemAction } from "../actions/itemActions"
 import PropTypes from "prop-types"
 
-const ItemModal = ({ addItem }) => {
+const ItemModal = ({ isAuthenticated, addItem }) => {
   const [isOpen, setIsOpen] = useState(false)
   const [itemName, setItemName] = useState("")
 
@@ -22,13 +22,17 @@ const ItemModal = ({ addItem }) => {
 
   return (
     <Container>
-      <Button
-        color="dark"
-        style={{ marginBottom: "2rem" }}
-        onClick={() => toggle()}
-      >
-        Add Item
-      </Button>
+      {isAuthenticated ? (
+        <Button
+          color="dark"
+          style={{ marginBottom: "2rem" }}
+          onClick={() => toggle()}
+        >
+          Add Item
+        </Button>
+      ) : (
+        <h4>Please log in to manage items</h4>
+      )}
       <Modal isOpen={isOpen} toggle={() => toggle()}>
         <ModalHeader toggle={() => toggle()}>Add to Shopping List</ModalHeader>
         <ModalBody>
@@ -62,11 +66,20 @@ const ItemModal = ({ addItem }) => {
 }
 
 ItemModal.propTypes = {
-  addItem: PropTypes.func.isRequired
+  addItem: PropTypes.func.isRequired,
+  isAuthenticated: PropTypes.bool
 }
+
+ItemModal.defaultProps = {
+  isAuthenticated: false
+}
+
+const mapStateToProps = (state) => ({
+  isAuthenticated: state.authReducer.isAuthenticated
+})
 
 const mapDispatchToProps = (dispatch) => ({
   addItem: (name) => dispatch(addItemAction(name))
 })
 
-export default connect(null, mapDispatchToProps)(ItemModal)
+export default connect(mapStateToProps, mapDispatchToProps)(ItemModal)

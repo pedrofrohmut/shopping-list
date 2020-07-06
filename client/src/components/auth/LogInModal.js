@@ -15,19 +15,13 @@ import {
   Alert
 } from "reactstrap"
 
-import { registerUser as registerAction } from "../../actions/authActions"
+import { logInUser as loginAction } from "../../actions/authActions"
 import { clearErrors as clearErrorsAction } from "../../actions/errorActions"
 
-const RegisterModal = ({
-  isAuthenticated,
-  error,
-  registerUser,
-  clearErrors
-}) => {
+const LogInModal = ({ isAuthenticated, error, loginUser, clearErrors }) => {
   const [isOpen, setIsOpen] = useState(false)
   const [message, setMessage] = useState(null)
 
-  const [name, setName] = useState("")
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
 
@@ -37,9 +31,9 @@ const RegisterModal = ({
   }
 
   useEffect(() => {
-    if (error && error.id === "REGISTER_FAIL") {
+    if (error && error.id === "LOGIN_FAIL") {
       // setMessage(error.message.message)
-      setMessage("Fail to register an user. Please enter all fields")
+      setMessage("Fail to log in an user. Please enter all fields")
     } else {
       setMessage(null)
     }
@@ -48,34 +42,23 @@ const RegisterModal = ({
       setIsOpen(false)
       clearErrors()
     }
-  }, [clearErrors, error, isAuthenticated, isOpen])
+  }, [error, isOpen, isAuthenticated, clearErrors])
 
   return (
-    <Container className="RegisterModal">
-      <NavLink onClick={() => toggle()} href="#">
-        Register
+    <Container className="LogInModal">
+      <NavLink className="text-white" onClick={() => toggle()} href="#">
+        Log In
       </NavLink>
       <Modal isOpen={isOpen} toggle={() => toggle()}>
-        <ModalHeader toggle={() => toggle()}>Register User</ModalHeader>
+        <ModalHeader toggle={() => toggle()}>Log In User</ModalHeader>
         <ModalBody>
           {message && <Alert color="danger">{message}</Alert>}
           <Form
             onSubmit={(e) => {
               e.preventDefault()
-              registerUser({ name, email, password })
+              loginUser({ email, password })
             }}
           >
-            <FormGroup>
-              <Label htmlFor="name">Name</Label>
-              <Input
-                id="name"
-                type="text"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                placeholder="Enter your name"
-                className="mb-3"
-              />
-            </FormGroup>
             <FormGroup>
               <Label htmlFor="email">E-Mail</Label>
               <Input
@@ -99,7 +82,7 @@ const RegisterModal = ({
               />
             </FormGroup>
             <Button color="dark" block>
-              Register user
+              Log In User
             </Button>
           </Form>
         </ModalBody>
@@ -108,8 +91,8 @@ const RegisterModal = ({
   )
 }
 
-RegisterModal.propTypes = {
-  isAuthenticated: PropTypes.bool.isRequired,
+LogInModal.propTypes = {
+  isAuthenticated: PropTypes.bool,
   error: PropTypes.shape({
     message: PropTypes.shape({
       message: PropTypes.string,
@@ -118,11 +101,11 @@ RegisterModal.propTypes = {
     status: PropTypes.number,
     id: PropTypes.string
   }),
-  registerUser: PropTypes.func.isRequired,
+  loginUser: PropTypes.func.isRequired,
   clearErrors: PropTypes.func.isRequired
 }
 
-RegisterModal.defaultProps = {
+LogInModal.defaultProps = {
   error: null
 }
 
@@ -132,8 +115,8 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  registerUser: (user) => dispatch(registerAction(user)),
+  loginUser: (user) => dispatch(loginAction(user)),
   clearErrors: () => dispatch(clearErrorsAction())
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(RegisterModal)
+export default connect(mapStateToProps, mapDispatchToProps)(LogInModal)
